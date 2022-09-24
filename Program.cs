@@ -8,7 +8,7 @@ namespace Parqueadero
 
         static void Main(string[] args)
         {
-            DateTime fecha = new DateTime();
+            
             string vehiculo = "";
             bool contemplado = false;
             string cliente = "";
@@ -57,6 +57,11 @@ namespace Parqueadero
             string[] vehiculos = new string[10];
             string[] clientes = new string[10];
 
+            int costoLavadaBreve = 45000;
+            int costoPolichada = 90000;
+            int costoLavadaFull = 80000;
+            int mensualidad = 80000;
+
             vehiculos[0] = "LTU87F";
             vehiculos[1] = "LVT55E";
             vehiculos[2] = "RTR83F";
@@ -68,18 +73,21 @@ namespace Parqueadero
             vehiculos[8] = "AAA002";
             vehiculos[9] = "AAA003";
 
-            clientes[0] = "Daniel";
-            clientes[1] = "David";
-            clientes[2] = "Edwin";
-            clientes[3] = "Carlos";
-            clientes[4] = "Laura";
-            clientes[5] = "Juan";
-            clientes[6] = "Ana";
-            clientes[7] = "Diego";
-            clientes[8] = "Neider";
-            clientes[9] = "Andres";
+            clientes[0] = "DANIEL";
+            clientes[1] = "DAVID";
+            clientes[2] = "EDWIN";
+            clientes[3] = "CARLOS";
+            clientes[4] = "LAURA";
+            clientes[5] = "JUAN";
+            clientes[6] = "ANA";
+            clientes[7] = "DIEGO";
+            clientes[8] = "NEIDER";
+            clientes[9] = "ANDRES";
 
-            
+            DateTime fecha = new DateTime();
+            fecha = DateTime.Now;
+
+
 
             Console.WriteLine("Digite la opción que corresponda:\n" +
                 "1: Pago de mensualidad\n" + 
@@ -90,28 +98,100 @@ namespace Parqueadero
 
             if (opcion == 1) 
             {
-                Console.WriteLine("Ingrese placa: ");
-                string vehiculo = Console.ReadLine();
-                vehiculo = vehiculo.ToUpper();
+                Console.WriteLine("Ingrese placa: o el nombre del cliente");
+                string cliente = Console.ReadLine();
+                cliente = cliente.ToUpper();
                 for (int i = 0; i < vehiculos.Length; i++)
                 {
-                    if (vehiculo == vehiculos[i]) existe = true;
+                    if (cliente == vehiculos[i] || cliente == clientes[i]) existe = true;
                 }
                 if (existe == true) 
                 {
-                    int mensualidad = 80000;
-                    Console.WriteLine("La mensualidad de ha renovado correctamente tras el pago de la mensulidad por valor de: " + mensualidad);
+                    Console.WriteLine("El cliente existente.");
+                    
+                    Console.WriteLine("La mensualidad se ha renovado correctamente tras el pago de la mensulidad por valor de: \n" + mensualidad + " el " + fecha);
+                    Console.WriteLine("Ya que una cosa no quita la otra,  ¿vamos a lavar el carro?\n"+
+                                        "S para (Si) N para (No)");
+                    string resp = Console.ReadLine();
+                    resp = resp.ToUpper();
+                    if (resp == "S")
+                    {
+                        int total = 0;
+                        Console.WriteLine("¿Que tipo de lavada?,  ¿breve o mela?\n" +
+                                        "B para (Breve) M para (Mela)");
+
+                        string lavada = Console.ReadLine();
+                        lavada = lavada.ToUpper();
+                        if (lavada == "B") total = mensualidad + costoLavadaBreve;
+                        else total = mensualidad + costoLavadaFull;
+
+                        Console.WriteLine("Ya entrados en gastos...,  ¿vamos a polichar el carro?\n" +
+                                        "S para (Si) N para (No)");
+                        string resp2 = Console.ReadLine();
+                        resp2 = resp2.ToUpper();
+                        if (resp2 == "S")
+                        {
+                            total += costoPolichada;
+                            Console.WriteLine("Sus gastos serían de: " + mensualidad + " de mensualidad más " + total + "de la lavada y polichada");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Sus gastos serían de: " + mensualidad + " de mensualidad más " + total + "de la lavada");
+                        }
+
+                    }
+                    else 
+                    {
+                        Console.WriteLine("Qie pirobo tan duro.");
+                    }
                 }
-                   
-                else 
-                Console.WriteLine("El cliente no existe.");
-
+                else
+                {
+                    Console.WriteLine("El cliente no existe.");
+                }
             }
+            if (opcion == 2)
+            {
+                Console.WriteLine("Ingrese el valor de la hora para carros");
+                int valorHoraCarro = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Ingrese el tiempo que permanecio el carro en el parqueadero en horas");
+                int tiempoPermanencia = Convert.ToInt32(Console.ReadLine());
 
-            Console.WriteLine("Ingrese el valor de la hora para carros");
-            int valorHoraCarro = Convert.ToInt32(Console.ReadLine());
-            Console.WriteLine("Ingrese el tiempo que permanecio el carro en el parqueadero en horas");
-            int tiempoPermanencia = Convert.ToInt32(Console.ReadLine());
+                int cobroparqueo = valorHoraCarro * tiempoPermanencia;
+
+                Console.WriteLine("¿El cliente solicito servicio de lavadero ?\n" +
+                                    "S para (Si) N para (No)");
+                string resp = Console.ReadLine();
+                resp = resp.ToUpper();
+                if (resp == "S")
+                {
+                    int total = 0;
+                    int totalLavada = 0;
+                    Console.WriteLine("¿Que tipo de lavada?,  ¿breve o mela?\n" +
+                                    "B para (Breve) M para (Mela)");
+
+                    string lavada = Console.ReadLine();
+                    lavada = lavada.ToUpper();
+                    if (lavada == "B") total = cobroparqueo + costoLavadaBreve; 
+                    else total = cobroparqueo + costoLavadaFull;
+
+                    Console.WriteLine("Ya entrados en gastos...,  ¿vamos a polichar el carro?\n" +
+                                    "S para (Si) N para (No)");
+                    string resp2 = Console.ReadLine();
+                    resp2 = resp2.ToUpper();
+                    if (resp2 == "S")
+                    {
+                        total += costoPolichada;
+                        Console.WriteLine("Sus gastos serían de: " + cobroparqueo + " de estadía más " + total + "de la lavada y polichada");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Sus gastos serían de: " + cobroparqueo + " de estadía más " + total + "de la lavada");
+                    }
+
+                }
+            }
+            
         }
     }
 }
